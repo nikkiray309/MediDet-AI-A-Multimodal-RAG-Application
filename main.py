@@ -20,7 +20,6 @@ import torch
 import clip
 from pinecone import Pinecone
 import openai
-from pymongo import MongoClient
 import whisper
 import tempfile
 # --- Page Config ---
@@ -390,90 +389,8 @@ if not flag:
 else:
     # Set up Streamlit app layout
     st.title("Continuous Speech to Text")
-    # Create a recognizer object
-    recognizer = sr.Recognizer()
-
-
-    # Function to handle continuous audio input
-    def listen_and_transcribe():
-        # Use the microphone as source
-        with sr.Microphone() as source:
-            recognizer.adjust_for_ambient_noise(source)
-            st.write("Listening... Press 'Stop Listening' to stop.")
-                
-            # Continuously listen and transcribe speech
-            while listening_state['state']:
-                try:
-                    # Capture audio from microphone
-                    audio = recognizer.listen(source, timeout=5)
-                        
-                        # Convert speech to text
-                    text = recognizer.recognize_google(audio)
-                    #transcribed_text += text + " "  # Append the new text to the existing transcription
-                    st.write(f"Current Text: {text}")
-                    filter = {"id": 'krrish'}
-                    h.update_one(
-        filter,
-        [
-            {
-                "$set": {
-                    "text": {
-                        "$concat": ["$text", {"$literal": text}]
-                    }
-                }
-            }
-        ]
-    )
-                except sr.WaitTimeoutError:
-                    pass  # If there's no speech, just continue
-                except sr.UnknownValueError:
-                    st.write("Could not understand the audio.")
-                except sr.RequestError:
-                    st.write("Error with the request to the recognition service.")
-
-    # Use a toggle button to control continuous listening
+    st.title("Currently still in developing phase")
     
-    listening_state = {'state': False}
-    adi=st.toggle('Start')
-    if adi:
-        h.update_one({"id": 'krrish'},{"$set": {"text": ""}})
-    # Button to start and stop listening
-    listening_state['state'] = adi
-    listen_and_transcribe()
-    au=h.find({'id':'krrish'},{'_id':0,'text':1})
-    prompt=[i['text'] for i in au][0]
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    st.chat_message("user").write(prompt)
-    prompt_template='''If Medical Symptoms type yes else give politely inform the user that the data is insufficient to provide a diagnosis   
-    Text:
-    {context}'''
-    PROMPT = PromptTemplate(
-    template=prompt_template, input_variables=["context"]
-    )
-    chain = LLMChain(llm=llm, prompt=PROMPT)
-    answer=chain.run(prompt)
-    if re.search(r'\bYes\b', answer):
-        prompt_template='''Accept the user’s symptoms as input and provide probable diseases, diagnoses and prescription using only the information stored in the vector database. politely inform the user that the data is insufficient to provide a diagnosis when the given prompt is not relavent to Medical Symptoms.    
-        Text:
-        {context}'''
-        PROMPT = PromptTemplate(
-            template=prompt_template, input_variables=["context"]
-        )
-        retriever = VectorStoreRetriever(vectorstore=vectorstore)
-        qa_chain = RetrievalQA.from_chain_type(llm=llm,
-                chain_type="stuff",
-                retriever=retriever,
-                chain_type_kwargs={"prompt": PROMPT},)
-        answer = qa_chain.run(query=prompt)
-    else:
-            prompt_template='''Accept the queries as a customer care and generate an accurate reply.   
-                Text:
-                {context}'''
-            PROMPT = PromptTemplate(
-            template=prompt_template, input_variables=["context"])
-            chain = LLMChain(llm=llm, prompt=PROMPT).run(prompt)
-            st.session_state.messages.append({"role": "assistant", "content": chain})
-            st.chat_message("assistant").write(chain)    
 if option == "Open Camera" and cam:
         st.chat_message("assistant").write(answer)
 if uploaded:
