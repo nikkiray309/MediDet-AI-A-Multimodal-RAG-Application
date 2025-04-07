@@ -12,3 +12,4 @@ git+https://github.com/openai/whisper.git
 torch
 clip
 speech_recognition
+pip>=24.0
