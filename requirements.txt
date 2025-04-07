@@ -11,5 +11,5 @@ git+https://github.com/openai/CLIP.git
 git+https://github.com/openai/whisper.git
 torch
 clip
-speech_recognition
+SpeechRecognition
 pip==25.0
