@@ -1,0 +1,27 @@
+/* skin_scout_app/styles/custom.css */
+.stApp {
+    background: linear-gradient(to bottom, #4A2E1D, #2E1C12);
+    color: #D9C2A7;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.sticky-note {
+    background: #D9C2A7;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.chat-bubble {
+    background: #D9C2A7;
+    padding: 8px;
+    margin: 5px;
+    border-radius: 8px;
+    border-left: 4px solid #E57373;
+}
+
+.diagnosis {
+    color: #E57373;
+    font-weight: bold;
+    font-size: 18px;
+}
