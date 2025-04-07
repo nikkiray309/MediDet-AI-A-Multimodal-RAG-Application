@@ -37,7 +37,7 @@ def load_lottie_url(path: str):
         return json.load(file)
     
 # Path to your det.json animation
-lottie_animation = load_lottie_url("C:/GradInno/assets/detwalking.json")
+lottie_animation = load_lottie_url("assets/detwalking.json")
 
 
 # --- Display Lottie Animation Before Title ---
