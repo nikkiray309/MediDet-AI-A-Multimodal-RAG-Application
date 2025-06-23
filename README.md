@@ -18,8 +18,6 @@ Implementation
 ## Technologies
 Streamlit, OpenAI (CLIP, GPT-4, Whisper), LangChain, Pinecone, MongoDB Methods: Retrieval-Augmented Generation (RAG), Speech-to-text (Whisper), Image embeddings (CLIP), LLM-based reasoning (GPT-4) Datasets: Custom disease-symptom metadata in Pinecone, user queries stored in MongoDB
 
-One Age
-
 
 ## Results & Demo
 
